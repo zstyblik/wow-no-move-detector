@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
 using System.Threading;
 
 using Styx;
-using Styx.Common;
 using Styx.Common.Helpers;
-using Styx.CommonBot;
+using Styx.Common;
 using Styx.CommonBot.Inventory;
+using Styx.CommonBot;
 using Styx.Helpers;
 using Styx.Plugins;
-using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
+using Styx.WoWInternals;
 
 namespace HB.Plugins.NoMoveDetector
 {
@@ -40,7 +40,7 @@ namespace HB.Plugins.NoMoveDetector
 
         #endregion
 
-        private Stopwatch LastOK ;
+        private Stopwatch LastOK;
         private WoWPoint LastLoc;
         private int nBotRestart;
         private static Thread RestartThread;
@@ -84,7 +84,9 @@ namespace HB.Plugins.NoMoveDetector
             //Cancel timer if move > 10 yards is detected
             if (LastLoc.Distance(Me.Location) > 10f)
             {
-                if (LastOK.ElapsedMilliseconds > 1000 * 30)  Logging.Write(@"[NoMoveDetector] Move detected. LastPosition reseted");
+                if (LastOK.ElapsedMilliseconds > 1000 * 30) {
+                    Logging.Write(@"[NoMoveDetector] Move detected. LastPosition reseted");
+                }
                 LastOK.Restart();
                 LastLoc = Me.Location;
                 return;
