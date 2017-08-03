@@ -15,7 +15,7 @@ using Styx.Plugins;
 using Styx.WoWInternals.WoWObjects;
 using Styx.WoWInternals;
 
-namespace HB.Plugins.NoMoveDetector
+namespace NoMoveDetector
 {
     class NoMoveDetector : HBPlugin
     {
@@ -30,6 +30,7 @@ namespace HB.Plugins.NoMoveDetector
             BotEvents.OnBotStarted -= BotEvents_OnBotStarted;
             BotEvents.OnBotStopped -= BotEvents_OnBotStopped;
         }
+
         public override string ButtonText { get { return "---"; } }
         public override bool WantButton { get { return false; } }
         public override void OnButtonPress(){}
@@ -50,12 +51,17 @@ namespace HB.Plugins.NoMoveDetector
             TreeRoot.Start();
         }
 
-        private void _OnBotStart(EventArgs args)
+        private void BotEvents_OnBotStarted(EventArgs args)
         {
             Logging.Write(@"[NoMoveDetector] Bot started");
             LastLoc = StyxWoW.Me.Location;
             LastOK.Restart();
             RestartThread = new Thread(new ThreadStart(_RestartThread));
+        }
+
+        private void BotEvents_OnBotStopped(EventArgs args)
+        {
+            Logging.Write(@"[NoMoveDetector] Bot stopped");
         }
 
         private void _init()
