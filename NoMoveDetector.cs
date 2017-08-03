@@ -21,14 +21,16 @@ namespace HB.Plugins.NoMoveDetector
     {
         #region Overrides of HBPlugin
 
-        public override void Initialize()
+        public override void OnEnable()
         {
-            Styx.CommonBot.BotEvents.OnBotStart += _OnBotStart;
+            BotEvents.OnBotStarted += BotEvents_OnBotStarted;
+            BotEvents.OnBotStopped += BotEvents_OnBotStopped;
             _init();
         }
-        public override void Dispose()
+        public override void OnDisable()
         {
-            Styx.CommonBot.BotEvents.OnBotStart -= _OnBotStart;
+            BotEvents.OnBotStarted -= BotEvents_OnBotStarted;
+            BotEvents.OnBotStopped -= BotEvents_OnBotStopped;
         }
         public override string ButtonText { get { return "---"; } }
         public override bool WantButton { get { return false; } }
