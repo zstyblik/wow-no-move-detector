@@ -19,8 +19,6 @@ namespace HB.Plugins.NoMoveDetector
 {
     class NoMoveDetector : HBPlugin
     {
-        #region Overrides of HBPlugin
-
         public override void OnEnable()
         {
             BotEvents.OnBotStarted += BotEvents_OnBotStarted;
@@ -39,8 +37,6 @@ namespace HB.Plugins.NoMoveDetector
         public override string Name { get { return "No Move Detector"; } }
         public override string Author { get { return "cls15"; } }
         public override Version Version { get { return new Version(1, 2, 0); } }
-
-        #endregion
 
         private Stopwatch LastOK;
         private WoWPoint LastLoc;
