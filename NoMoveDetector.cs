@@ -76,7 +76,7 @@ namespace NoMoveDetector
             // Must we go futher anyway?
             if (!TreeRoot.IsRunning)
             {
-                if (LastOK.TotalSeconds > 30)
+                if (LastOK.Elapsed.TotalSeconds > 30)
                 {
                     Logging.Write(@"[NoMoveDetector] LastPosition reseted, bot is not running (but pulse is called ???)");
                     LastOK.Restart();
@@ -88,7 +88,7 @@ namespace NoMoveDetector
             //Cancel timer if move > 10 yards is detected
             if (LastLoc.Distance(Me.Location) > 10f)
             {
-                if (LastOK.TotalSeconds > 30) {
+                if (LastOK.Elapsed.TotalSeconds > 30) {
                     Logging.Write(@"[NoMoveDetector] Move detected. LastPosition reseted");
                 }
                 if (nBotRestart > 0) {
@@ -109,7 +109,7 @@ namespace NoMoveDetector
                 }
             } */
             // Have we moved whithin last 5 mins
-            if (LastOK.TotalSeconds > 300)
+            if (LastOK.Elapsed.TotalSeconds > 300)
             {
                 if (Styx.CommonBot.Frames.AuctionFrame.Instance.IsVisible || Styx.CommonBot.Frames.MailFrame.Instance.IsVisible)
                 {
