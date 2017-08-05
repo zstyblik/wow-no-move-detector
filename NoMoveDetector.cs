@@ -76,27 +76,30 @@ namespace NoMoveDetector
             // Must we go futher anyway?
             if (!TreeRoot.IsRunning)
             {
-                if (LastOK.ElapsedMilliseconds > 1000 * 30)
+                if (LastOK.TotalSeconds > 30)
                 {
                     Logging.Write(@"[NoMoveDetector] LastPosition reseted, bot is not running (but pulse is called ???)");
                     LastOK.Restart();
                 }
                 return;
-            } 
-            
+            }
+
             WoWPlayer Me = StyxWoW.Me;
             //Cancel timer if move > 10 yards is detected
             if (LastLoc.Distance(Me.Location) > 10f)
             {
-                if (LastOK.ElapsedMilliseconds > 1000 * 30) {
+                if (LastOK.TotalSeconds > 30) {
                     Logging.Write(@"[NoMoveDetector] Move detected. LastPosition reseted");
+                }
+                if (nBotRestart > 0) {
+                    nBotRestart -= 1;
                 }
                 LastOK.Restart();
                 LastLoc = Me.Location;
                 return;
             }
            /* if (LastOK.ElapsedMilliseconds > 1000 * 5 && !StyxWoW.Me.HasAura("Food"))
-            { 
+            {
                 // BestFood detection correct
                 ulong nCurrentFood = CharacterSettings.Instance.DrinkName.ToUInt32();
                 WoWItem tp = ObjectManager.GetObjectByGuid<WoWItem>(nCurrentFood);
@@ -106,7 +109,7 @@ namespace NoMoveDetector
                 }
             } */
             // Have we moved whithin last 5 mins
-            if (LastOK.ElapsedMilliseconds > 1000*60*5)
+            if (LastOK.TotalSeconds > 300)
             {
                 if (Styx.CommonBot.Frames.AuctionFrame.Instance.IsVisible || Styx.CommonBot.Frames.MailFrame.Instance.IsVisible)
                 {
@@ -120,7 +123,7 @@ namespace NoMoveDetector
                     LastOK.Restart();
                     return;
                 }
-                if (nBotRestart > 1) // Not mooving for 15 min, hope you have a reloger...
+                if (nBotRestart > 1) // Not mooving for 10 min, hope you have a reloger...
                 {
                     Logging.Write(@"[NoMoveDetector] not mooving last 15 min : Stopping Wow...");
                     Lua.DoString(@"ForceQuit()");
@@ -132,7 +135,6 @@ namespace NoMoveDetector
                     LastOK.Restart();
                     RestartThread.Start();
                 }
-                
             }
         }
     }
